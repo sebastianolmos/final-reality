@@ -4,6 +4,8 @@ import com.github.cc3002.finalreality.model.character.AbstractCharacter;
 import com.github.cc3002.finalreality.model.character.ICharacter;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
+
+import com.github.cc3002.finalreality.model.weapon.Weapon;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -24,6 +26,8 @@ public class PlayerCharacter extends AbstractCharacter {
    * @param characterClass
    *     the class of this character
    */
+  private Weapon equippedWeapon = null;
+
   public PlayerCharacter(@NotNull String name,
       @NotNull BlockingQueue<ICharacter> turnsQueue,
       final CharacterClass characterClass) {
@@ -46,5 +50,17 @@ public class PlayerCharacter extends AbstractCharacter {
     final PlayerCharacter that = (PlayerCharacter) o;
     return getCharacterClass() == that.getCharacterClass()
         && getName().equals(that.getName());
+  }
+  public void equip(Weapon weapon) {
+    this.equippedWeapon = weapon;
+  }
+
+  public Weapon getEquippedWeapon() {
+    return equippedWeapon;
+  }
+
+  @Override
+  public int getWeaponWeight() {
+    return getEquippedWeapon().getWeight();
   }
 }

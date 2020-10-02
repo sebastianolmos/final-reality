@@ -48,4 +48,10 @@ public class Enemy extends AbstractCharacter {
   public int hashCode() {
     return Objects.hash(getWeight());
   }
+
+  @Override
+  public int getWeaponWeight() {
+    return getWeight();
+  }
+
 }

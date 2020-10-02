@@ -24,14 +24,9 @@ public interface ICharacter {
   String getName();
 
   /**
-   * Equips a weapon to the character.
+   * Return this character's equipped weapon's weight.
    */
-  void equip(Weapon weapon);
-
-  /**
-   * Return this character's equipped weapon.
-   */
-  Weapon getEquippedWeapon();
+  int getWeaponWeight();
 
   /**
    * Returns this character's class.
