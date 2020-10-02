@@ -3,7 +3,7 @@ ChangeLog
 
 Version 2.0
 -----------
-Write your changes in here
+- (B.1) Entrega parcial 1 : SOLID correction
 
 Version 1.0
 -----------
