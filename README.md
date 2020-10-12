@@ -22,7 +22,6 @@ Entrega Parcial 1
 Se elimino de la interfaz ``ICharacter`` y la clase abstracta ``AbstractCharacter `` los metodos ``equip(Weapon)`` y ``getEquippedWeapon()``, para implementarlas en la clase ``PlayerCharacter``, ya que estas no cumplian con el principio de Liskov al no tener un uso en la clase ``Enemy``.
 
 Se creo el metodo ``getWeaponWeight()`` en la interfaz ICharacter y las implementa las clases ``PlayerCharacter`` y ``Enemy`` para que el metodo ``waitTurn()`` no rompa el principio de Single- responsabilty.
-
 ---
 
 Entrega Parcial 2
