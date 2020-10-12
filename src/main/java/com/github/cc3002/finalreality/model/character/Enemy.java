@@ -21,7 +21,7 @@ public class Enemy extends AbstractCharacter {
    */
   public Enemy(@NotNull final String name, final int weight,
       @NotNull final BlockingQueue<ICharacter> turnsQueue) {
-    super(turnsQueue, name, CharacterClass.ENEMY);
+    super(turnsQueue, name);
     this.weight = weight;
   }
 
@@ -41,17 +41,23 @@ public class Enemy extends AbstractCharacter {
       return false;
     }
     final Enemy enemy = (Enemy) o;
-    return getWeight() == enemy.getWeight();
+    return getWeight() == enemy.getWeight()
+            && getName().equals(enemy.getName());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getWeight());
+    return Objects.hash(getWeight(), getName());
   }
 
   @Override
   public int getWeaponWeight() {
     return getWeight();
+  }
+
+  @Override
+  public CharacterClass getCharacterClass(){
+    return CharacterClass.ENEMY;
   }
 
 }
