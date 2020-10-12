@@ -16,4 +16,19 @@ enemies controlled by the computer.
 
 ---
 
-**The rest of the documentation is left for the users of this template to complete**
+Entrega Parcial 1
+-------
+
+Se elimino de la interfaz ``ICharacter`` y la clase abstracta ``AbstractCharacter `` los metodos ``equip(Weapon)`` y ``getEquippedWeapon()``, para implementarlas en la clase ``PlayerCharacter``, ya que estas no cumplian con el principio de Liskov al no tener un uso en la clase ``Enemy``.
+
+Se creo el metodo ``getWeaponWeight()`` en la interfaz ICharacter y las implementa las clases ``PlayerCharacter`` y ``Enemy`` para que el metodo ``waitTurn()`` no rompa el principio de Single- responsabilty.
+
+---
+
+Entrega Parcial 2
+-------
+
+Se crearon clases para los tipos de personajes y de armas, para su posterior especializacion y cumplimiento del principio de unica responsabilidad. Para esta implentacion se crearon las clases abstractas e interfaces necesarias.
+
+Se escribieron de nuevo los test para cada clase, ocupando herencia, de modo que se alcanzo un ``Coverage`` del 100% para las ``lines`` y ``branches``.
+Se explicara en más detalle en la entrega de la Tarea 1.
