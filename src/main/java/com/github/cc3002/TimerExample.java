@@ -2,7 +2,7 @@ package com.github.cc3002;
 
 import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.character.player.Thief;
-import com.github.cc3002.finalreality.model.weapon.types.KnifeWeapon;
+import com.github.cc3002.finalreality.model.weapon.KnifeWeapon;
 
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;

@@ -7,6 +7,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * An abstract class that holds the common behaviour of all the playable characters in the game.
+ * Can equip a weapon.
+ *
+ * @author Sebastian Olmos
+ */
 public abstract class AbstractPlayer extends AbstractCharacter implements IPlayer {
 
     private IWeapon equippedWeapon = null;
@@ -26,6 +32,9 @@ public abstract class AbstractPlayer extends AbstractCharacter implements IPlaye
         return equippedWeapon;
     }
 
+    /**
+     * Those character can equip weapon, so his weapon's weight define his waitTurn time.
+     */
     @Override
     public int getWeaponWeight() {
         return getEquippedWeapon().getWeight();

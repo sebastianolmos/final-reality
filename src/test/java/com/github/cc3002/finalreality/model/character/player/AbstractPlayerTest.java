@@ -2,17 +2,26 @@ package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.AbstractCharacterTest;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
-import com.github.cc3002.finalreality.model.weapon.types.SwordWeapon;
+import com.github.cc3002.finalreality.model.weapon.SwordWeapon;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/**
+ * Abstract class containing the common tests for the playable characters.
+ *
+ * @author Sebastian Olmos
+ * @see IPlayer
+ */
 public abstract class AbstractPlayerTest extends AbstractCharacterTest {
     protected IWeapon testWeapon;
 
-    @Test
+    /**
+     * Checks that the character waits for a character that can use weapons
+     */
+    @Test @Override
     protected void waitTurnTest() {
         Assertions.assertTrue(turns.isEmpty());
         tryToEquip((IPlayer) testCharacter);
@@ -31,10 +40,16 @@ public abstract class AbstractPlayerTest extends AbstractCharacterTest {
         }
     }
 
+    /**
+     * Equip the testWeapon
+     */
     private void tryToEquip(IPlayer character) {
         character.equip(testWeapon);
     }
 
+    /**
+     * Test to check the equipment with test weapon
+     */
     @Test
     protected void equipWeaponTest() {
         IPlayer testPlayer = (IPlayer)testCharacter;
@@ -43,6 +58,9 @@ public abstract class AbstractPlayerTest extends AbstractCharacterTest {
         assertEquals(testWeapon, testPlayer.getEquippedWeapon());
     }
 
+    /**
+     * Add a testWeapon to test
+     */
     @Override
     protected void basicSetup() {
         super.basicSetup();

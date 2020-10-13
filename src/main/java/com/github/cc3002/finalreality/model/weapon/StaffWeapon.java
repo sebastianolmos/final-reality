@@ -1,11 +1,24 @@
-package com.github.cc3002.finalreality.model.weapon.types;
-
-import com.github.cc3002.finalreality.model.weapon.AbstractWeapon;
+package com.github.cc3002.finalreality.model.weapon;
 
 import java.util.Objects;
 
+/**
+ * A class that holds all the information of a Staff.
+ *
+ * @author Sebastian Olmos.
+ */
 public class StaffWeapon extends AbstractWeapon {
 
+    /**
+     * Creates a new Staff.
+     *
+     * @param name
+     *     the staff's name
+     * @param damage
+     *     the staff's damage
+     * @param weight
+     *      the staff's weight
+     */
     public StaffWeapon(final String name, final int damage, final int weight){
         super(name, damage, weight);
     }

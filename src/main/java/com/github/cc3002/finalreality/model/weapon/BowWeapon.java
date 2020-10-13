@@ -1,11 +1,24 @@
-package com.github.cc3002.finalreality.model.weapon.types;
-
-import com.github.cc3002.finalreality.model.weapon.AbstractWeapon;
+package com.github.cc3002.finalreality.model.weapon;
 
 import java.util.Objects;
 
+/**
+ * A class that holds all the information of a Bow.
+ *
+ * @author Sebastian Olmos.
+ */
 public class BowWeapon extends AbstractWeapon {
 
+    /**
+     * Creates a new Bow.
+     *
+     * @param name
+     *     the bow's name
+     * @param damage
+     *     the bow's damage
+     * @param weight
+     *      the bow's weight
+     */
     public BowWeapon(final String name, final int damage, final int weight){
         super(name, damage, weight);
     }

@@ -1,11 +1,24 @@
-package com.github.cc3002.finalreality.model.weapon.types;
-
-import com.github.cc3002.finalreality.model.weapon.AbstractWeapon;
+package com.github.cc3002.finalreality.model.weapon;
 
 import java.util.Objects;
 
+/**
+ * A class that holds all the information of an Axe.
+ *
+ * @author Sebastian Olmos.
+ */
 public class AxeWeapon extends AbstractWeapon {
 
+    /**
+     * Creates a new Axe.
+     *
+     * @param name
+     *     the axe's name
+     * @param damage
+     *     the axe's damage
+     * @param weight
+     *      the axe's weight
+     */
     public AxeWeapon(final String name, final int damage, final int weight){
         super(name, damage, weight);
     }

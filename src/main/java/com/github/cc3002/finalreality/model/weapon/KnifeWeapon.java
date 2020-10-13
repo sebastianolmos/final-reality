@@ -1,11 +1,24 @@
-package com.github.cc3002.finalreality.model.weapon.types;
-
-import com.github.cc3002.finalreality.model.weapon.AbstractWeapon;
+package com.github.cc3002.finalreality.model.weapon;
 
 import java.util.Objects;
 
+/**
+ * A class that holds all the information of a Knife.
+ *
+ * @author Sebastian Olmos.
+ */
 public class KnifeWeapon extends AbstractWeapon {
 
+    /**
+     * Creates a new Knife.
+     *
+     * @param name
+     *     the knife's name
+     * @param damage
+     *     the knife's damage
+     * @param weight
+     *      the knife's weight
+     */
     public KnifeWeapon(final String name, final int damage, final int weight){
         super(name, damage, weight);
     }

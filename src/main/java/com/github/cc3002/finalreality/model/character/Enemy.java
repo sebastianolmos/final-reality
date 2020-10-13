@@ -9,15 +9,21 @@ import org.jetbrains.annotations.NotNull;
  * A class that holds all the information of a single enemy of the game.
  *
  * @author Ignacio Slater Muñoz
- * @author <Your name>
+ * @author Sebastian Olmos.
  */
 public class Enemy extends AbstractCharacter {
 
   private final int weight;
 
   /**
-   * Creates a new enemy with a name, a weight and the queue with the characters ready to
-   * play.
+   * Creates a new enemy.
+   *
+   * @param name
+   *     the character's name
+   * @param weight
+   *     the character's weight
+   * @param turnsQueue
+   *     the queue with the characters waiting for their turn
    */
   public Enemy(@NotNull final String name, final int weight,
       @NotNull final BlockingQueue<ICharacter> turnsQueue) {
@@ -50,6 +56,9 @@ public class Enemy extends AbstractCharacter {
     return Objects.hash(getWeight(), getName());
   }
 
+  /**
+   * The Enemy can't equip weapons, so its value to wait in the queue is the weight.
+   */
   @Override
   public int getWeaponWeight() {
     return getWeight();

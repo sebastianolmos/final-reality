@@ -7,13 +7,14 @@ import com.github.cc3002.finalreality.model.character.player.CharacterClass;
  * A character can be controlled by the player or by the CPU (an enemy).
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author Sebastián Olmos.
  */
 public interface ICharacter {
 
   /**
    * Sets a scheduled executor to make this character (thread) wait for {@code speed / 10}
    * seconds before adding the character to the queue.
+   * Depends on getWeaponWeight() value
    */
   void waitTurn();
 
@@ -23,7 +24,7 @@ public interface ICharacter {
   String getName();
 
   /**
-   * Return this character's equipped weapon's weight.
+   * Returns this character's value that is used to calculate the waitTurn()
    */
   int getWeaponWeight();
 

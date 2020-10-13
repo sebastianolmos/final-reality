@@ -6,8 +6,21 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * A class that holds all the information of a Thief Character.
+ *
+ * @author Sebastian Olmos.
+ */
 public class Thief extends AbstractPlayer {
 
+    /**
+     * Creates a new Thief.
+     *
+     * @param turnsQueue
+     *     the queue with the characters waiting for their turn
+     * @param name
+     *     the character's name
+     */
     public Thief(@NotNull BlockingQueue<ICharacter> turnsQueue,
                  @NotNull String name) {
         super(turnsQueue, name);
@@ -15,7 +28,7 @@ public class Thief extends AbstractPlayer {
 
     @Override
     public CharacterClass getCharacterClass(){
-        return CharacterClass.KNIGHT;
+        return CharacterClass.THIEF;
     }
 
     @Override

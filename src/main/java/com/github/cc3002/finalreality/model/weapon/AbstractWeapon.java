@@ -1,5 +1,10 @@
 package com.github.cc3002.finalreality.model.weapon;
 
+/**
+ * An abstract class that holds the common behaviour of all the weapons in the game.
+ *
+ * @author Sebastian Olmos.
+ */
 public abstract class AbstractWeapon implements IWeapon{
     private final String name;
     private final int damage;
@@ -10,15 +15,21 @@ public abstract class AbstractWeapon implements IWeapon{
         this.damage = damage;
         this.weight = weight;
     }
-
+    /**
+     * Returns the weapon's name.
+     */
     protected String getName() {
         return name;
     }
 
+    /**
+     * Returns the weapon's damage.
+     */
     protected int getDamage() {
         return damage;
     }
 
+    @Override
     public int getWeight() {
         return weight;
     }

@@ -1,19 +1,38 @@
 package com.github.cc3002.finalreality.model.character;
-
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+/**
+ * Abstract class containing the common tests for all the types of characters.
+ *
+ * @author Sebastian Olmos
+ * @see ICharacter
+ */
 public abstract class AbstractCharacterTest {
 
     protected BlockingQueue<ICharacter> turns;
     protected ICharacter testCharacter;
 
+    /**
+     * Checks that the character waits the appropriate amount of time for it's turn.
+     */
     protected abstract void waitTurnTest();
 
+    /**
+     * Assertion tests that sees the equality of testCharacter and other characters
+     *
+     * @param expectedCharacter
+     *      Character expected to be equals to testCharacter
+     * @param sameClassDifferentCharacter
+     *      Same class character than testCharacter with different attributes
+     * @param differentClassCharacter
+     *      Different class character than testCharacter
+     * @param foeCharacter
+     *      Character of the opposite align than testCharacter
+     */
     protected void checkConstruction(final ICharacter expectedCharacter,
                                      final ICharacter sameClassDifferentCharacter,
                                      final ICharacter differentClassCharacter,
@@ -30,11 +49,18 @@ public abstract class AbstractCharacterTest {
         assertNotEquals(foeCharacter.hashCode(), testCharacter.hashCode());
     }
 
+    /**
+     * Make the turns queue to test.
+     */
     protected void basicSetup() {
         turns = new LinkedBlockingQueue<>();
     }
 
-    protected void assignCharacter(ICharacter someCharacter) {testCharacter = someCharacter;}
+    /**
+     * Prepare the character to test.
+     */
+    protected void assignCharacter(ICharacter someCharacter) {
+        testCharacter = someCharacter;}
 
 
 }

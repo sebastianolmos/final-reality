@@ -10,16 +10,29 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+/**
+ * Set of tests for the Enemy character.
+ *
+ * @author Sebastian Olmos.
+ * @see Enemy
+ */
 public class EnemyTest extends AbstractCharacterTest{
 
     private static final String ENEMY_NAME = "Goblin";
 
+    /**
+     * Setup method.
+     * Creates a new enemy named Goblin with 10 speed and links it to a turn queue.
+     */
     @BeforeEach
     void setUp() {
         super.basicSetup();
         super.assignCharacter(new Enemy(ENEMY_NAME, 10, turns));
     }
 
+    /**
+     * Checks that the enemy waits its turn, without using weapons
+     */
     @Test
     public void waitTurnTest() {
         Assertions.assertTrue(turns.isEmpty());
@@ -38,6 +51,9 @@ public class EnemyTest extends AbstractCharacterTest{
         }
     }
 
+    /**
+     * Checks that the class' constructor and equals method works properly.
+     */
     @Test
     void constructorTest() {
         super.checkConstruction(new Enemy(ENEMY_NAME, 10, turns),

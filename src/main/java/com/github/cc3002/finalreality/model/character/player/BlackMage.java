@@ -6,8 +6,21 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * A class that holds all the information of a Black Mage Character.
+ *
+ * @author Sebastian Olmos.
+ */
 public class BlackMage extends AbstractMage {
 
+    /**
+     * Creates a new Black Mage.
+     *
+     * @param turnsQueue
+     *     the queue with the characters waiting for their turn
+     * @param name
+     *     the character's name
+     */
     public BlackMage(@NotNull BlockingQueue<ICharacter> turnsQueue,
                      @NotNull String name){
         super(turnsQueue, name);
