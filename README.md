@@ -31,6 +31,7 @@ At least for the tests, in the same way of specialization for the classes, the t
 of the abstract class for each one. The waitTurn tests were replaced to one without lists because it was using only the elements of 0 indexes, so for each 
 character type was implemented a waitTurn test, and a construction test, while for the weapon was implemented a construction test. It was reached a 
 100% branch and lines coverage.
+
 ---
 
 Second Submission
