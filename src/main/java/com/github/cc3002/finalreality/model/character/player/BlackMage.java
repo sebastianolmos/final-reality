@@ -1,6 +1,7 @@
 package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.ICharacter;
+import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -22,8 +23,12 @@ public class BlackMage extends AbstractMage {
      *     the character's name
      */
     public BlackMage(@NotNull BlockingQueue<ICharacter> turnsQueue,
-                     @NotNull String name){
-        super(turnsQueue, name);
+                     @NotNull String name, int health, int defense) {
+        super(turnsQueue, name, health, defense);
+    }
+    public BlackMage(@NotNull BlockingQueue<ICharacter> turnsQueue,
+                     @NotNull String name) {
+        this(turnsQueue, name, 30, 8);
     }
 
     @Override
@@ -46,6 +51,16 @@ public class BlackMage extends AbstractMage {
     @Override
     public int hashCode() {
         return Objects.hash(getCharacterClass(), getName());
+    }
+
+    /**
+     * Equip a weapon on a BlackMage character if it's alive.
+     */
+    @Override
+    public void equip(IWeapon weapon) {
+        if (itsAlive()) {
+            weapon.equipOnBlackMage(this);
+        }
     }
 
 }

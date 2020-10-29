@@ -16,9 +16,9 @@ public abstract class AbstractMage extends AbstractPlayer {
     private int mana;
 
     protected AbstractMage(@NotNull BlockingQueue<ICharacter> turnsQueue,
-                           @NotNull String name) {
-        super(turnsQueue, name);
-        mana = 0;
+                           @NotNull String name, int health, int defense) {
+        super(turnsQueue, name, health, defense);
+        this.mana = 0;
     }
 
 }

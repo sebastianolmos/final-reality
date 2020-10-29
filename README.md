@@ -31,5 +31,17 @@ At least for the tests, in the same way of specialization for the classes, the t
 of the abstract class for each one. The waitTurn tests were replaced to one without lists because it was using only the elements of 0 indexes, so for each 
 character type was implemented a waitTurn test, and a construction test, while for the weapon was implemented a construction test. It was reached a 
 100% branch and lines coverage.
+---
+
+Second Submission
+-------
+For the third partial submission the goal was implements the equip functionality to the playable characters. First according to the correction in the forum 
+I will assume that the ``Thief`` character can equip Sword, Knife and Bow weapons (No Staff). Then I implement this using double dispatch.
+
+For the attack functionality it was implemented assuming that any character can attack any character, because is more extensible to add new functionalities 
+(confused state, etc) so it was only needed modify the abstract classes.
+
+At least it was implemented the new test to check the equipment to each weapon using inheritance, and tests to check the attacks in the ``BattleTest`` class
+where only are tested a few characters, because the attack functionality was implemented in the abstract class, non in each type of character.
 
 To execute the project, run the test package with coverage.

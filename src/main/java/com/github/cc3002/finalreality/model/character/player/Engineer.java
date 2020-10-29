@@ -1,6 +1,7 @@
 package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.ICharacter;
+import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -22,8 +23,13 @@ public class Engineer extends AbstractPlayer {
      *     the character's name
      */
     public Engineer(@NotNull BlockingQueue<ICharacter> turnsQueue,
+                    @NotNull String name, int health, int defense) {
+        super(turnsQueue, name, health, defense);
+    }
+
+    public Engineer(@NotNull BlockingQueue<ICharacter> turnsQueue,
                     @NotNull String name) {
-        super(turnsQueue, name);
+        this(turnsQueue, name, 25, 10);
     }
 
     @Override
@@ -46,6 +52,16 @@ public class Engineer extends AbstractPlayer {
     @Override
     public int hashCode() {
         return Objects.hash(getCharacterClass(), getName());
+    }
+
+    /**
+     * Equip a weapon on a Engineer character if it's alive.
+     */
+    @Override
+    public void equip(IWeapon weapon) {
+        if (itsAlive()) {
+            weapon.equipOnEngineer(this);
+        }
     }
 
 }

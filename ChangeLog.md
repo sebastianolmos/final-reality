@@ -1,15 +1,29 @@
 ChangeLog
 =========
+Version 5.0
+-----------
+- (RC.5) Partial submission 3 : DD, equip weapons and attack between characters.
+- (B.304) 100% branch coverage reached
+- (B.303) Add methods in ``BattleTest`` to check the successful (and not) attacks between a player and an enemy (with/without weapons and dead/alive)
+- (B.302) Add ``BattleTest`` test class to check the attacks.
+- (B.301) Fix equip weapons tests, Adding methods to test supported an unsupported weapons to each character with each type of weapon using inheritance.
+- (B.203) Implements the attack between characters with ``receiveAttackOf()`` and ``attack()`` to the enemy and player characters
+- (B.202) Add ``itsAlive()`` to ``AbstractCharacter`` to use in the attacks and equip weapons methods.
+- (B.201) Add the attributes ``defense``, ``health`` to ``AbstractCharacter`` and ``damage`` to ``Enemy`` and its getters, setters methods.
+- (B.103) Move ``equip()`` to each player characters that implements its equipOn method with Double Dispatch.
+- (B.102) Add to ``AbstractWeapon`` and its interface methods to be equipped on each player character (equipOnBlackMage, equipOnKnight, etc)
+- (B.101) Add ``setEquippedWeapon()`` to ``AbstractPlayer``
+
 Version 4.0
 -----------
-- (RC.2) Homework 1 Submission
+- (RC.4) Homework 1 Submission
 - (B.3) Added PDF summary
 - (B.2) Added the UML diagram of the project
 - (B.1) Code commentated according Javadoc
 
 Version 3.0
 -----------
-- (RC.2) Partial submission 2 : Test Coverage
+- (RC.3) Partial submission 2 : Test Coverage
 - (B.307) 100% branch coverage reached
 - (B.306) Added a test class to each type of weapon to check his construction
 - (B.305) Implements the setup and construction base tests to all weapons in ``AbstractWeaponTest``

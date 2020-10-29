@@ -18,18 +18,22 @@ public abstract class AbstractPlayer extends AbstractCharacter implements IPlaye
     private IWeapon equippedWeapon = null;
 
     protected AbstractPlayer(@NotNull BlockingQueue<ICharacter> turnsQueue,
-                             @NotNull String name) {
-        super(turnsQueue, name);
-    }
-
-    @Override
-    public void equip(IWeapon weapon) {
-        this.equippedWeapon = weapon;
+                             @NotNull String name, int health, int defense) {
+        super(turnsQueue, name, health, defense);
     }
 
     @Override
     public IWeapon getEquippedWeapon() {
         return equippedWeapon;
+    }
+
+    /**
+     * Change the equipped weapon.
+     * @param weapon
+     *     weapon to equip.
+     */
+    public void setEquippedWeapon(IWeapon weapon) {
+        equippedWeapon = weapon;
     }
 
     /**
@@ -40,4 +44,13 @@ public abstract class AbstractPlayer extends AbstractCharacter implements IPlaye
         return getEquippedWeapon().getWeight();
     }
 
+    /**
+     * The Character can attack if it's alive and has a weapon equipped.
+     */
+    @Override
+    public void attack(ICharacter foe) {
+        if (getEquippedWeapon() != null && this.itsAlive()) {
+            foe.receiveAttackOf(getEquippedWeapon().getDamage());
+        }
+    }
 }

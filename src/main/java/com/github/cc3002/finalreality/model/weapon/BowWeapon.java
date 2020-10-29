@@ -1,5 +1,7 @@
 package com.github.cc3002.finalreality.model.weapon;
 
+import com.github.cc3002.finalreality.model.character.player.*;
+
 import java.util.Objects;
 
 /**
@@ -45,6 +47,22 @@ public class BowWeapon extends AbstractWeapon {
     @Override
     public int hashCode() {
         return Objects.hash(getName(), getDamage(), getWeight(), getType());
+    }
+
+    /**
+     * This weapon type can be equipped in an Engineer.
+     */
+    @Override
+    public void equipOnEngineer(Engineer player) {
+        player.setEquippedWeapon(this);
+    }
+
+    /**
+     * This weapon type can be equipped in a Thief.
+     */
+    @Override
+    public void equipOnThief(Thief player) {
+        player.setEquippedWeapon(this);
     }
 
 }

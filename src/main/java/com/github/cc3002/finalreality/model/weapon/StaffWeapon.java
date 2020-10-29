@@ -1,5 +1,7 @@
 package com.github.cc3002.finalreality.model.weapon;
 
+import com.github.cc3002.finalreality.model.character.player.*;
+
 import java.util.Objects;
 
 /**
@@ -46,4 +48,21 @@ public class StaffWeapon extends AbstractWeapon {
     public int hashCode() {
         return Objects.hash(getName(), getDamage(), getWeight(), getType());
     }
+
+    /**
+     * This weapon type can be equipped in a Black Mage.
+     */
+    @Override
+    public void equipOnBlackMage(BlackMage player) {
+        player.setEquippedWeapon(this);
+    }
+
+    /**
+     * This weapon type can be equipped in a White Mage.
+     */
+    @Override
+    public void equipOnWhiteMage(WhiteMage player) {
+        player.setEquippedWeapon(this);
+    }
+
 }

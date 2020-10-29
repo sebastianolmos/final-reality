@@ -32,4 +32,28 @@ public interface ICharacter {
    * Returns this character's class.
    */
   CharacterClass getCharacterClass();
+
+  /**
+   * Returns this character's health points.
+   */
+  int getHealth();
+
+  /**
+   * this character attacks a foe character
+   * @param foe
+   *     the character that receives the attack
+   */
+  void attack(ICharacter foe);
+
+  /**
+   * this character receives an amount of damage
+   * @param damage
+   *     amount to calculate health points lost
+   */
+  void receiveAttackOf(int damage);
+
+  /**
+   * Returns this character's state of life.
+   */
+  boolean itsAlive();
 }

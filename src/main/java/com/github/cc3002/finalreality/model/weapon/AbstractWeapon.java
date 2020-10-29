@@ -1,5 +1,7 @@
 package com.github.cc3002.finalreality.model.weapon;
 
+import com.github.cc3002.finalreality.model.character.player.*;
+
 /**
  * An abstract class that holds the common behaviour of all the weapons in the game.
  *
@@ -25,7 +27,8 @@ public abstract class AbstractWeapon implements IWeapon{
     /**
      * Returns the weapon's damage.
      */
-    protected int getDamage() {
+    @Override
+    public int getDamage() {
         return damage;
     }
 
@@ -33,4 +36,22 @@ public abstract class AbstractWeapon implements IWeapon{
     public int getWeight() {
         return weight;
     }
+
+    /**
+     * Returns nothing to default equip methods.
+     */
+    @Override
+    public void equipOnBlackMage(BlackMage player) {}
+
+    @Override
+    public void equipOnEngineer(Engineer player) {}
+
+    @Override
+    public void equipOnKnight(Knight player) {}
+
+    @Override
+    public void equipOnThief(Thief player) {}
+
+    @Override
+    public void equipOnWhiteMage(WhiteMage player) {}
 }

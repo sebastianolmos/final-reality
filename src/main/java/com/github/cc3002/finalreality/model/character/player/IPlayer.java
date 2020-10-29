@@ -1,5 +1,6 @@
 package com.github.cc3002.finalreality.model.character.player;
 
+import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
 
 /**
@@ -7,7 +8,7 @@ import com.github.cc3002.finalreality.model.weapon.IWeapon;
  *
  * @author Sebastián Olmos.
  */
-public interface IPlayer {
+public interface IPlayer extends ICharacter {
 
     /**
      * Equips a weapon to the character.
@@ -18,5 +19,4 @@ public interface IPlayer {
      * Return this character's equipped weapon.
      */
     IWeapon getEquippedWeapon();
-
 }

@@ -1,6 +1,7 @@
 package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.ICharacter;
+import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -22,8 +23,13 @@ public class WhiteMage extends AbstractMage {
      *     the character's name
      */
     public WhiteMage(@NotNull BlockingQueue<ICharacter> turnsQueue,
-                     @NotNull String name){
-        super(turnsQueue, name);
+                     @NotNull String name, int health, int defense) {
+        super(turnsQueue, name, health, defense);
+    }
+
+    public WhiteMage(@NotNull BlockingQueue<ICharacter> turnsQueue,
+                     @NotNull String name) {
+        this(turnsQueue, name, 25, 15);
     }
 
     @Override
@@ -46,6 +52,16 @@ public class WhiteMage extends AbstractMage {
     @Override
     public int hashCode() {
         return Objects.hash(getCharacterClass(), getName());
+    }
+
+    /**
+     * Equip a weapon on a WhiteMage character if it's alive.
+     */
+    @Override
+    public void equip(IWeapon weapon) {
+        if (itsAlive()) {
+            weapon.equipOnWhiteMage(this);
+        }
     }
 
 }

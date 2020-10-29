@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public class Enemy extends AbstractCharacter {
 
   private final int weight;
+  private int damage;
 
   /**
    * Creates a new enemy.
@@ -26,10 +27,16 @@ public class Enemy extends AbstractCharacter {
    *     the queue with the characters waiting for their turn
    */
   public Enemy(@NotNull final String name, final int weight,
-      @NotNull final BlockingQueue<ICharacter> turnsQueue) {
-    super(turnsQueue, name);
+      @NotNull final BlockingQueue<ICharacter> turnsQueue, int health, int defense, final int damage) {
+    super(turnsQueue, name, health, defense);
     this.weight = weight;
+    this.damage =  damage;
   }
+  public Enemy(@NotNull final String name, final int weight,
+               @NotNull final BlockingQueue<ICharacter> turnsQueue) {
+    this(name, weight, turnsQueue, 20, 5, 10);
+  }
+
 
   /**
    * Returns the weight of this enemy.
@@ -67,6 +74,23 @@ public class Enemy extends AbstractCharacter {
   @Override
   public CharacterClass getCharacterClass(){
     return CharacterClass.ENEMY;
+  }
+
+  /**
+   * Returns the Enemy's amount of damage .
+   */
+  public int getDamage() {
+    return this.damage;
+  }
+
+  /**
+   * The Enemy can attack if it's alive.
+   */
+  @Override
+  public void attack(ICharacter foe) {
+    if (this.itsAlive()) {
+      foe.receiveAttackOf(this.getDamage());
+    }
   }
 
 }

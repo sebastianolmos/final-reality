@@ -1,13 +1,13 @@
 package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.AbstractCharacterTest;
-import com.github.cc3002.finalreality.model.weapon.IWeapon;
-import com.github.cc3002.finalreality.model.weapon.SwordWeapon;
+import com.github.cc3002.finalreality.model.weapon.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Abstract class containing the common tests for the playable characters.
@@ -16,7 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @see IPlayer
  */
 public abstract class AbstractPlayerTest extends AbstractCharacterTest {
-    protected IWeapon testWeapon;
+    protected IWeapon mainWeapon;
+
+    protected AxeWeapon testAxe = new AxeWeapon("testAxe", 1, 1);
+    protected BowWeapon testBow = new BowWeapon("testBow", 1, 1);
+    protected KnifeWeapon testKnife = new KnifeWeapon("testKnife", 1, 1);
+    protected StaffWeapon testStaff = new StaffWeapon("testStaff", 1, 1);
+    protected SwordWeapon testSword = new SwordWeapon("testSword", 1, 1);
 
     /**
      * Checks that the character waits for a character that can use weapons
@@ -41,30 +47,54 @@ public abstract class AbstractPlayerTest extends AbstractCharacterTest {
     }
 
     /**
-     * Equip the testWeapon
+     * Equip the main weapon.
+     * @param character
+     *     Character to equip the main weapon.
      */
     private void tryToEquip(IPlayer character) {
-        character.equip(testWeapon);
+        character.equip(mainWeapon);
     }
 
     /**
-     * Test to check the equipment with test weapon
+     * Checks that the supported weapons can be equipped.
+     * @param testWeapons
+     *     Array of weapons to check
      */
-    @Test
-    protected void equipWeaponTest() {
-        IPlayer testPlayer = (IPlayer)testCharacter;
-        assertNull(testPlayer.getEquippedWeapon());
-        testPlayer.equip(testWeapon);
-        assertEquals(testWeapon, testPlayer.getEquippedWeapon());
+    protected void equipSupportedWeapons(ArrayList<IWeapon> testWeapons) {
+        IPlayer player = (IPlayer)testCharacter;
+        for (IWeapon weapon : testWeapons) {
+            player.equip(mainWeapon);
+            player.equip(weapon);
+            assertEquals(weapon, player.getEquippedWeapon());
+        }
+        player.equip(mainWeapon);
+        testCharacter.receiveAttackOf(1000);
+        player.equip(testWeapons.get(0));
+        assertEquals(mainWeapon, player.getEquippedWeapon());
     }
 
     /**
-     * Add a testWeapon to test
+     * Checks that the unsupported weapons can not be equipped.
+     * @param testWeapons
+     *     Array of weapons to check
      */
-    @Override
-    protected void basicSetup() {
+    protected void equipUnsupportedWeapons(ArrayList<IWeapon> testWeapons) {
+        IPlayer player = (IPlayer)testCharacter;
+        for (IWeapon weapon : testWeapons) {
+            player.equip(mainWeapon);
+            player.equip(weapon);
+            assertNotEquals(weapon, player.getEquippedWeapon());
+        }
+    }
+
+    /**
+     * Prepare the main weapon and the turns queue .
+     * @param testWeapon
+     *     Weapon that will be the main weapon
+     */
+    protected void basicSetup(IWeapon testWeapon) {
         super.basicSetup();
-        testWeapon = new SwordWeapon("TestSword", 15, 10);
+        this.mainWeapon = testWeapon;
     }
 
 }
