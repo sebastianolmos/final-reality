@@ -45,7 +45,11 @@ For the attack functionality it was implemented assuming that any character can 
 At least it was implemented the new test to check the equipment to each weapon using inheritance, and tests to check the attacks in the ``BattleTest`` class
 where only are tested a few characters, because the attack functionality was implemented in the abstract class, non in each type of character.
 
+<<<<<<< HEAD
 -------
 For the fifth partial submission was implement a basic first view of the controller, adding its tests and the javadoc.
 
 To execute the project, run the test package with coverage.
+=======
+To execute the project, run the test package with coverage.
+>>>>>>> 6130810116be14bd4c6099fefb5a1479b3474f1c
