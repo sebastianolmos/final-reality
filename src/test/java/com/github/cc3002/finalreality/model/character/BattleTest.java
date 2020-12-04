@@ -13,6 +13,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+/**
+ * Tests for try different types of attacks.
+ *
+ * @author Sebastian Olmos
+ */
 public class BattleTest {
     private IPlayer armedCharacter;
     private ICharacter deadCharacter;

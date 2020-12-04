@@ -1,5 +1,7 @@
 package com.github.cc3002.finalreality.model.character;
 
+import com.github.cc3002.finalreality.controller.GameController;
+import com.github.cc3002.finalreality.controller.IEventHandler;
 import com.github.cc3002.finalreality.model.character.player.CharacterClass;
 
 /**
@@ -39,6 +41,16 @@ public interface ICharacter {
   int getHealth();
 
   /**
+   * Returns this character's defense points.
+   */
+  int getDefense();
+
+  /**
+   * Returns this Character's amount of damage .
+   */
+  int getDamage();
+
+  /**
    * this character attacks a foe character
    * @param foe
    *     the character that receives the attack
@@ -56,4 +68,18 @@ public interface ICharacter {
    * Returns this character's state of life.
    */
   boolean itsAlive();
+
+  /**
+   * Add a listener to notify when controller can play a turn
+   * @param playTurnHandler
+   *     Handler that call the event
+   */
+  void addPlayTurnListener(IEventHandler playTurnHandler);
+
+  /**
+   * Add a listener to notify when the character die
+   * @param defeatHandler
+   *     Handler that call the event
+   */
+  void addDefeatListener(IEventHandler defeatHandler);
 }

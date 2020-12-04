@@ -1,7 +1,9 @@
 package com.github.cc3002.finalreality.model.character;
 
+import com.github.cc3002.finalreality.controller.IEventHandler;
 import com.github.cc3002.finalreality.model.character.player.CharacterClass;
 
+import java.beans.PropertyChangeSupport;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -23,6 +25,8 @@ public abstract class AbstractCharacter implements ICharacter {
   private ScheduledExecutorService scheduledExecutor;
   private int health;
   private final int defense;
+  private final PropertyChangeSupport playTurnNotification = new PropertyChangeSupport(this);
+  private final PropertyChangeSupport defeatNotification = new PropertyChangeSupport(this);
 
   protected AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
       @NotNull String name, int health, int defense) {
@@ -37,6 +41,7 @@ public abstract class AbstractCharacter implements ICharacter {
     scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
     scheduledExecutor
             .schedule(this::addToQueue, getWeaponWeight() / 10, TimeUnit.SECONDS);
+    playTurnNotification.firePropertyChange("Turns queue are not empty", true, turnsQueue.isEmpty());
   }
 
   /**
@@ -45,6 +50,7 @@ public abstract class AbstractCharacter implements ICharacter {
   private void addToQueue() {
     turnsQueue.add(this);
     scheduledExecutor.shutdown();
+    playTurnNotification.firePropertyChange("Turns queue is empty", 0, turnsQueue.size());
   }
 
   @Override
@@ -69,9 +75,7 @@ public abstract class AbstractCharacter implements ICharacter {
     this.health = health;
   }
 
-  /**
-   * Returns the defense points.
-   */
+  @Override
   public int getDefense() {
     return defense;
   }
@@ -82,15 +86,37 @@ public abstract class AbstractCharacter implements ICharacter {
   }
 
   /**
+   * Character can attack if it's alive.
+   */
+  @Override
+  public void attack(ICharacter foe) {
+    if (this.itsAlive()) {
+      foe.receiveAttackOf(this.getDamage());
+    }
+  }
+
+  /**
    * Can receive damage if this character it's alive.
    */
   @Override
   public void receiveAttackOf(int damage) {
     if (this.itsAlive()) {
       int trueDamage = max(damage - this.getDefense(), 0);
-      int health = max(this.getHealth() - trueDamage, 0);
+      int currentHealth = this.getHealth();
+      int health = max(currentHealth - trueDamage, 0);
       this.setHealth(health);
+      defeatNotification.firePropertyChange("This character was defeated", true, itsAlive());
     }
+  }
+
+  @Override
+  public void addPlayTurnListener(IEventHandler playTurnHandler) {
+    playTurnNotification.addPropertyChangeListener(playTurnHandler);
+  }
+
+  @Override
+  public void addDefeatListener(IEventHandler defeatHandler) {
+    defeatNotification.addPropertyChangeListener(defeatHandler);
   }
 
 }

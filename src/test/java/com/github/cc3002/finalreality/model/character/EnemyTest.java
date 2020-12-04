@@ -2,6 +2,7 @@ package com.github.cc3002.finalreality.model.character;
 
 import com.github.cc3002.finalreality.model.character.player.BlackMage;
 import com.github.cc3002.finalreality.model.character.player.CharacterClass;
+import com.github.cc3002.finalreality.model.character.player.Engineer;
 import com.github.cc3002.finalreality.model.character.player.Knight;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,6 +63,14 @@ public class EnemyTest extends AbstractCharacterTest{
                 new BlackMage(turns, ENEMY_NAME));
         assertEquals(testCharacter.getCharacterClass(), CharacterClass.ENEMY);
         assertNotEquals(new Enemy(ENEMY_NAME, 14, turns), testCharacter);
+
+        testCharacter = new Enemy(ENEMY_NAME, 20, turns, 200, 40, 50);
+        super.checkConstruction(new Enemy(ENEMY_NAME, 20, turns, 200, 40, 50),
+                new Enemy(ENEMY_NAME, 20, turns, 200, 40, 100),
+                new Engineer(turns, "NON_ENEMY",400, 20),
+                new BlackMage(turns, "NON_ENEMY",100, 100));
     }
+
+
 
 }

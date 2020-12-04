@@ -24,9 +24,6 @@ public abstract class AbstractWeapon implements IWeapon{
         return name;
     }
 
-    /**
-     * Returns the weapon's damage.
-     */
     @Override
     public int getDamage() {
         return damage;

@@ -14,7 +14,8 @@ import org.jetbrains.annotations.NotNull;
 public class Enemy extends AbstractCharacter {
 
   private final int weight;
-  private int damage;
+  private final int damage;
+
 
   /**
    * Creates a new enemy.
@@ -55,12 +56,13 @@ public class Enemy extends AbstractCharacter {
     }
     final Enemy enemy = (Enemy) o;
     return getWeight() == enemy.getWeight()
-            && getName().equals(enemy.getName());
+            && getName().equals(enemy.getName())
+            && getDamage() == enemy.getDamage();
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getWeight(), getName());
+    return Objects.hash(getWeight(), getName(), getDamage());
   }
 
   /**
@@ -76,21 +78,9 @@ public class Enemy extends AbstractCharacter {
     return CharacterClass.ENEMY;
   }
 
-  /**
-   * Returns the Enemy's amount of damage .
-   */
+  @Override
   public int getDamage() {
     return this.damage;
-  }
-
-  /**
-   * The Enemy can attack if it's alive.
-   */
-  @Override
-  public void attack(ICharacter foe) {
-    if (this.itsAlive()) {
-      foe.receiveAttackOf(this.getDamage());
-    }
   }
 
 }

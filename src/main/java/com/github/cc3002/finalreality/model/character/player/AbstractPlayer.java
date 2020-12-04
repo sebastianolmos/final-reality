@@ -44,13 +44,13 @@ public abstract class AbstractPlayer extends AbstractCharacter implements IPlaye
         return getEquippedWeapon().getWeight();
     }
 
-    /**
-     * The Character can attack if it's alive and has a weapon equipped.
-     */
     @Override
-    public void attack(ICharacter foe) {
-        if (getEquippedWeapon() != null && this.itsAlive()) {
-            foe.receiveAttackOf(getEquippedWeapon().getDamage());
+    public int getDamage() {
+        if (equippedWeapon == null) {
+            return 0;
+        } else {
+            return equippedWeapon.getDamage();
         }
     }
+
 }
