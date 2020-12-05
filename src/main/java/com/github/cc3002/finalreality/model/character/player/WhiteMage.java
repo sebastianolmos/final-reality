@@ -46,12 +46,14 @@ public class WhiteMage extends AbstractMage {
             return false;
         }
         final WhiteMage that = (WhiteMage) o;
-        return getName().equals(that.getName());
+        return getName().equals(that.getName()) &&
+                getHealth() == that.getHealth() &&
+                getDefense() == that.getDefense();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCharacterClass(), getName());
+        return Objects.hash(getName(), getHealth(), getDefense());
     }
 
     /**

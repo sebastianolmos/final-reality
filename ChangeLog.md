@@ -1,5 +1,29 @@
 ChangeLog
 =========
+Version 7.0
+-----------
+- (RC.4) Homework 2 Submission
+- (B.4) Added PDF summary
+- (B.3) Added the UML diagram of the project
+- (B.2) Updated README
+- (B.1) Refactor the ``equals`` method of the playable characters and add some test
+
+Version 6.0
+-----------
+- (RC.5) Partial submission 5 : Basic Controller implementation.
+- (B.401) Add methods for check the winner condition in the controller..
+- (B.301) Refactor the attack method in the player characters to implements in ``AbstractCharacters``
+- (B.204) Add methods for turn management in the controller.
+- (B.203) Add the listener subscribe methods in the controller.
+- (B.202) Add the listener methods to characters classes.
+- (B.201) Add ``IEventHandler`` interface, and the extended classes to implement the observer pattern.
+- (B.105) Add method to make an attack interaction between characters.
+- (B.105) Add getters for the selected character or character on turn
+- (B.104) Add methods for the inventory management.
+- (B.103) Add getters for the party and enemy characters receiving an index
+- (B.102) Add methods to create characters and weapons in the controller
+- (B.101) Add ``GameController`` class to control the interaction with the user
+
 Version 5.0
 -----------
 - (RC.5) Partial submission 3 : DD, equip weapons and attack between characters.

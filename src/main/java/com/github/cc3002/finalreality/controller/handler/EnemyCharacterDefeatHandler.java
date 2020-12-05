@@ -1,4 +1,6 @@
-package com.github.cc3002.finalreality.controller;
+package com.github.cc3002.finalreality.controller.handler;
+
+import com.github.cc3002.finalreality.controller.GameController;
 
 import java.beans.PropertyChangeEvent;
 

@@ -12,7 +12,7 @@ import java.util.concurrent.BlockingQueue;
  *
  * @author Sebastian Olmos.
  */
-public class Knight extends AbstractPlayer {
+public class Knight extends Engineer {
 
     /**
      * Creates a new Knight.
@@ -46,12 +46,14 @@ public class Knight extends AbstractPlayer {
             return false;
         }
         final Knight that = (Knight) o;
-        return getName().equals(that.getName());
+        return getName().equals(that.getName()) &&
+                getHealth() == that.getHealth() &&
+                getDefense() == that.getDefense();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCharacterClass(), getName());
+        return Objects.hash(getName(), getHealth(), getDefense());
     }
 
     /**

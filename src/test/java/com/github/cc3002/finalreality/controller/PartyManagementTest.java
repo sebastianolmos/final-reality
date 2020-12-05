@@ -45,7 +45,7 @@ public class PartyManagementTest {
     @Test
     public void managementTest() {
         assertEquals(testController.getRemainingPartyCharacters(), 0);
-
+        //Add characters and test if where added in the controller
         testController.addBlackMageToParty(NAMES[0], HEALTH_VALUES[0], DEFENSE_VALUES[0]);
         assertEquals(testController.getRemainingPartyCharacters(), 1);
         assertEquals(testController.getPartyCharacter(0), CHARACTERS[0]);
@@ -66,6 +66,7 @@ public class PartyManagementTest {
         assertEquals(testController.getRemainingPartyCharacters(), 5);
         assertEquals(testController.getPartyCharacter(4), CHARACTERS[4]);
 
+        //try to add characters over the limit and check that was not added in the controller
         IPlayer testCharacter = new BlackMage(dummyTurns, "OverloadTest", 10, 10);
         testController.addBlackMageToParty("OverloadTest", 10, 10);
         assertEquals(testController.getRemainingPartyCharacters(), 5);
@@ -79,22 +80,27 @@ public class PartyManagementTest {
      * Test the getters with its creation values
      */
     public void gettersTest() {
+        //First character added
         assertEquals(testController.getPartyCharacterName(0), NAMES[0]);
         assertEquals(testController.getPartyCharacterHealth(0), HEALTH_VALUES[0]);
         assertEquals(testController.getPartyCharacterDefense(0), DEFENSE_VALUES[0]);
+        //Second character added
         assertEquals(testController.getPartyCharacterName(1), NAMES[1]);
         assertEquals(testController.getPartyCharacterHealth(1), HEALTH_VALUES[1]);
         assertEquals(testController.getPartyCharacterDefense(1), DEFENSE_VALUES[1]);
+        //Third character added
         assertEquals(testController.getPartyCharacterName(2), NAMES[2]);
         assertEquals(testController.getPartyCharacterHealth(2), HEALTH_VALUES[2]);
         assertEquals(testController.getPartyCharacterDefense(2), DEFENSE_VALUES[2]);
+        //Fourth character added
         assertEquals(testController.getPartyCharacterName(3), NAMES[3]);
         assertEquals(testController.getPartyCharacterHealth(3), HEALTH_VALUES[3]);
         assertEquals(testController.getPartyCharacterDefense(3), DEFENSE_VALUES[3]);
+        //Fifth character added
         assertEquals(testController.getPartyCharacterName(4), NAMES[4]);
         assertEquals(testController.getPartyCharacterHealth(4), HEALTH_VALUES[4]);
         assertEquals(testController.getPartyCharacterDefense(4), DEFENSE_VALUES[4]);
-        //
+        //Add a weapon and test the damage getter
         testController.addSwordToInventory("TestSword",10,100);
         testController.equipFromInventoryOn(0, 2);
         assertEquals(testController.getPartyCharacterDamage(4), 0);

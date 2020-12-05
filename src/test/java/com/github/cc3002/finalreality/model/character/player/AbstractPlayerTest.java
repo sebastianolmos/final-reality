@@ -97,4 +97,28 @@ public abstract class AbstractPlayerTest extends AbstractCharacterTest {
         this.mainWeapon = testWeapon;
     }
 
+    /**
+     * Assertion tests that sees the non equality of the same class but with different attributes
+     *
+     * @param testCharacter
+     *      Character to be compared
+     * @param differentNameCharacter
+     *      Same class character than testCharacter with different Name
+     * @param differentHealthCharacter
+     *      Same class character than testCharacter with different Health
+     * @param differentDefenseCharacter
+     *      Same class character than testCharacter with different Defense
+     */
+    protected void checkSameClassConstruction(final IPlayer testCharacter,
+                                              final IPlayer differentNameCharacter,
+                                              final IPlayer differentHealthCharacter,
+                                              final IPlayer differentDefenseCharacter) {
+        assertNotEquals(testCharacter, differentNameCharacter);
+        assertNotEquals(testCharacter.hashCode(), differentNameCharacter.hashCode());
+        assertNotEquals(testCharacter, differentHealthCharacter);
+        assertNotEquals(testCharacter.hashCode(), differentHealthCharacter.hashCode());
+        assertNotEquals(testCharacter, differentDefenseCharacter);
+        assertNotEquals(testCharacter.hashCode(), differentDefenseCharacter.hashCode());
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.github.cc3002.finalreality.controller;
+package com.github.cc3002.finalreality.controller.handler;
 
 import java.beans.PropertyChangeListener;
 /**

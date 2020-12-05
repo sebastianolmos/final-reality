@@ -43,7 +43,7 @@ public class EnemiesManagementTest {
     @Test
     public void managementTest() {
         assertEquals(testController.getRemainingEnemies(), 0);
-
+        //Add characters and test if where added in the controller
         testController.addEnemyToEnemies(NAMES[0], HEALTH_VALUES[0], DEFENSE_VALUES[0], WEIGHT_VALUES[0], DAMAGE_VALUES[0]);
         assertEquals(testController.getRemainingEnemies(), 1);
         assertEquals(testController.getEnemyCharacter(0), CHARACTERS[0]);
@@ -56,6 +56,7 @@ public class EnemiesManagementTest {
         assertEquals(testController.getRemainingEnemies(), 3);
         assertEquals(testController.getEnemyCharacter(2), CHARACTERS[2]);
 
+        //try to add characters over the limit and check that was not added in the controller
         Enemy testEnemy = new Enemy("OverloadTest", 10, dummyTurns, 20, 5, 10);
         testController.addEnemyToEnemies("OverloadTest", 20, 5, 10, 10);
         assertEquals(testController.getRemainingEnemies(), 3);
@@ -69,16 +70,19 @@ public class EnemiesManagementTest {
      * Test the getters with its creation values
      */
     public void gettersTest() {
+        //First character added
         assertEquals(testController.getEnemyCharacterName(0), NAMES[0]);
         assertEquals(testController.getEnemyCharacterHealth(0), HEALTH_VALUES[0]);
         assertEquals(testController.getEnemyCharacterDefense(0), DEFENSE_VALUES[0]);
         assertEquals(testController.getEnemyCharacterDamage(0), DAMAGE_VALUES[0]);
         assertEquals(testController.getEnemyCharacterWeight(0), WEIGHT_VALUES[0]);
+        //Second character added
         assertEquals(testController.getEnemyCharacterName(1), NAMES[1]);
         assertEquals(testController.getEnemyCharacterHealth(1), HEALTH_VALUES[1]);
         assertEquals(testController.getEnemyCharacterDefense(1), DEFENSE_VALUES[1]);
         assertEquals(testController.getEnemyCharacterDamage(1), DAMAGE_VALUES[1]);
         assertEquals(testController.getEnemyCharacterWeight(1), WEIGHT_VALUES[1]);
+        //Third character added
         assertEquals(testController.getEnemyCharacterName(2), NAMES[2]);
         assertEquals(testController.getEnemyCharacterHealth(2), HEALTH_VALUES[2]);
         assertEquals(testController.getEnemyCharacterDefense(2), DEFENSE_VALUES[2]);
