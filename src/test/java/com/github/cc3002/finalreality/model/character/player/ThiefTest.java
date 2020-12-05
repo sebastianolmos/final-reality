@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
@@ -42,6 +43,14 @@ public class ThiefTest extends AbstractPlayerTest {
                 new WhiteMage(turns, THIEF_NAME),
                 new Enemy("Enemy", 10, turns));
         assertNotEquals(testCharacter, new WhiteMage(turns, THIEF_NAME));
+
+        super.checkSameClassConstruction(
+                new Thief(turns, "CHARACTER_NAME", 100, 20),
+                new Thief(turns, "OTHER_NAME", 100, 20),
+                new Thief(turns, "CHARACTER_NAME", 200, 20),
+                new Thief(turns, "CHARACTER_NAME", 100, 10));
+
+        assertEquals(testCharacter.getCharacterClass(), CharacterClass.THIEF);
     }
 
     /**

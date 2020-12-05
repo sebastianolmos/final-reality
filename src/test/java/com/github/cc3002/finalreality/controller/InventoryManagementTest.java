@@ -48,10 +48,11 @@ public class InventoryManagementTest {
      */
     @Test
     void indexTest() {
+        // Try to equip with a wrong index so the controller doesn't make the equip
         testController.addSwordToInventory(NAMES[4], WEIGHT_VALUES[4], DAMAGE_VALUES[4]);
         testController.equipFromInventoryOn(3, 4);
         assertEquals(testController.getWeaponsAmountOnInventory(), 1);
-
+        //Remove a weapon from inventory and check if was correct
         IWeapon poppedWeapon = testController.removeFromInventory(1);
         assertEquals(testController.getWeaponsAmountOnInventory(), 0);
         assertEquals(WEAPONS[4], poppedWeapon);
@@ -63,7 +64,7 @@ public class InventoryManagementTest {
     @Test
     public void managementTest() {
         assertEquals(testController.getWeaponsAmountOnInventory(), 0);
-
+        //Add weapons and test if where added in the controller
         testController.addAxeToInventory(NAMES[0], WEIGHT_VALUES[0], DAMAGE_VALUES[0]);
         assertEquals(testController.getWeaponsAmountOnInventory(), 1);
 
@@ -79,9 +80,11 @@ public class InventoryManagementTest {
         testController.addSwordToInventory(NAMES[4], WEIGHT_VALUES[4], DAMAGE_VALUES[4]);
         assertEquals(testController.getWeaponsAmountOnInventory(), 5);
 
+        //try to add a weapon over the limit and check that was not added in the inventory
         testController.addAxeToInventory("OVERLOAD_TEST", 10, 10);
         assertEquals(testController.getWeaponsAmountOnInventory(), 5);
 
+        //Test the remove method
         IWeapon poppedWeapon = testController.removeFromInventory(4);
         assertEquals(testController.getWeaponsAmountOnInventory(), 4);
         assertEquals(WEAPONS[4], poppedWeapon);
@@ -96,22 +99,27 @@ public class InventoryManagementTest {
      * Make tests to different cases when a character equip a weapon from rhe inventory.
      */
     public void equipTest() {
+        //Test the equip methods to character (without weapon) that the weapons are not compatible
         testController.equipFromInventoryOn(3, 4);
         assertEquals(testController.getWeaponsAmountOnInventory(), 5);
         assertNotEquals(WEAPONS[3], testController.getPartyCharacter(4).getEquippedWeapon());
 
+        //Test the equip methods to character that the weapons are compatible
         testController.equipFromInventoryOn(0, 0);
         assertEquals(testController.getWeaponsAmountOnInventory(), 4);
         assertEquals(WEAPONS[0], testController.getPartyCharacter(0).getEquippedWeapon());
 
+        //Test the equip methods to character (with weapon) that the weapons are not compatible
         testController.equipFromInventoryOn(2, 0);
         assertEquals(testController.getWeaponsAmountOnInventory(), 4);
         assertNotEquals(WEAPONS[3], testController.getPartyCharacter(0).getEquippedWeapon());
 
+        //Test the equip methods to character that the weapons are compatible and has an equipped weapon
         testController.equipFromInventoryOn(0, 0);
         assertEquals(testController.getWeaponsAmountOnInventory(), 4);
         assertEquals(WEAPONS[1], testController.getPartyCharacter(0).getEquippedWeapon());
 
+        //Test the equip methods to characters that the weapons are compatible, the index of the inventory is decreasing
         testController.equipFromInventoryOn(0, 1);
         assertEquals(testController.getWeaponsAmountOnInventory(), 3);
         assertEquals(WEAPONS[0], testController.getPartyCharacter(1).getEquippedWeapon());

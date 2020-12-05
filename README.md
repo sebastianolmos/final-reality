@@ -45,11 +45,23 @@ For the attack functionality it was implemented assuming that any character can 
 At least it was implemented the new test to check the equipment to each weapon using inheritance, and tests to check the attacks in the ``BattleTest`` class
 where only are tested a few characters, because the attack functionality was implemented in the abstract class, non in each type of character.
 
-<<<<<<< HEAD
--------
-For the fifth partial submission was implement a basic first view of the controller, adding its tests and the javadoc.
+For the fifth partial submission the goal was implements a basic controller that will interact with the user and play the game. Then was created 
+the ``GameController`` class and was added several methods to satisfy the requirements. First was implemented methods to create all the different types 
+of characters and weapons, then add them to arrays in the controller. For the getters of the characters' information was implemented so that the user have to pass
+and index. For the inventory, was supposed that first the user have to add a weapon to the inventory and then equip on the character from the inventory passing
+and index. Also, was supposed that if a character already has a weapon equipped, the equip method swap the weapons, removing from the inventory the old weapon 
+and adding the weapon that was used by the character. In the case of the attack methods, for the moment receive character's objects, its need more indication to implements attack 
+methods in more cases, so the user doesn't need to know the objects.
+
+The controller needs to know when start a turn so was implemented the ``CharacterTurnHandler`` that is used to implement an observer on the character to notify 
+when a character waits for a turn, and the turns queue isn't empty. Also notify when a character was added to the queue and is the only one. The was implemented another
+ handler for the enemy and the playable character to notify when each one is deafeted, so the controller needs update the remaining character counts and check if the user win 
+ or lose.
+ 
+At least for the tests, was implemented for the management of the playable characters, enemies and inventory, the for the turns was implemented tests that simulates 
+a simple run of turns that test the correct behaviour of the methods related. For the handlers, and listeners methods was supposed that is not required methods that 
+only test its methods because only make sense use these methods with both the subscriber and publisher implemented, so these methods were tested with the turns.
+ It was reached a 100% branch and lines coverage.
+
 
 To execute the project, run the test package with coverage.
-=======
-To execute the project, run the test package with coverage.
->>>>>>> 6130810116be14bd4c6099fefb5a1479b3474f1c

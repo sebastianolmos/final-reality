@@ -1,5 +1,9 @@
 package com.github.cc3002.finalreality.controller;
 
+import com.github.cc3002.finalreality.controller.handler.CharacterTurnHandler;
+import com.github.cc3002.finalreality.controller.handler.EnemyCharacterDefeatHandler;
+import com.github.cc3002.finalreality.controller.handler.IEventHandler;
+import com.github.cc3002.finalreality.controller.handler.PartyCharacterDefeatHandler;
 import com.github.cc3002.finalreality.model.character.Enemy;
 import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.character.player.*;
