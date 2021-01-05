@@ -1,6 +1,6 @@
 package com.github.cc3002.finalreality.model.character;
 
-import com.github.cc3002.finalreality.controller.handler.IEventHandler;
+import com.github.cc3002.finalreality.controller.handlers.IEventHandler;
 import com.github.cc3002.finalreality.model.character.player.CharacterClass;
 
 import java.beans.PropertyChangeSupport;
@@ -25,8 +25,8 @@ public abstract class AbstractCharacter implements ICharacter {
   private ScheduledExecutorService scheduledExecutor;
   private int health;
   private final int defense;
-  private final PropertyChangeSupport playTurnNotification = new PropertyChangeSupport(this);
   private final PropertyChangeSupport defeatNotification = new PropertyChangeSupport(this);
+  private final PropertyChangeSupport addedToQueueNotification = new PropertyChangeSupport(this);
 
   protected AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
       @NotNull String name, int health, int defense) {
@@ -41,7 +41,6 @@ public abstract class AbstractCharacter implements ICharacter {
     scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
     scheduledExecutor
             .schedule(this::addToQueue, getWeaponWeight() / 10, TimeUnit.SECONDS);
-    playTurnNotification.firePropertyChange("Turns queue are not empty", true, turnsQueue.isEmpty());
   }
 
   /**
@@ -50,7 +49,7 @@ public abstract class AbstractCharacter implements ICharacter {
   private void addToQueue() {
     turnsQueue.add(this);
     scheduledExecutor.shutdown();
-    playTurnNotification.firePropertyChange("Turns queue is empty", 0, turnsQueue.size());
+    addedToQueueNotification.firePropertyChange("A character was added to the turns queue", true, false);
   }
 
   @Override
@@ -110,13 +109,13 @@ public abstract class AbstractCharacter implements ICharacter {
   }
 
   @Override
-  public void addPlayTurnListener(IEventHandler playTurnHandler) {
-    playTurnNotification.addPropertyChangeListener(playTurnHandler);
+  public void addDefeatListener(IEventHandler defeatHandler) {
+    defeatNotification.addPropertyChangeListener(defeatHandler);
   }
 
   @Override
-  public void addDefeatListener(IEventHandler defeatHandler) {
-    defeatNotification.addPropertyChangeListener(defeatHandler);
+  public void addToQueueListener(IEventHandler addToQueueHandler) {
+    addedToQueueNotification.addPropertyChangeListener(addToQueueHandler);
   }
 
 }

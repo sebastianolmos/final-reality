@@ -3,6 +3,7 @@ package com.github.cc3002.finalreality.model.character.player;
 import com.github.cc3002.finalreality.model.character.AbstractCharacter;
 import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
+import com.github.cc3002.finalreality.model.weapon.NullWeapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.BlockingQueue;
@@ -15,7 +16,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public abstract class AbstractPlayer extends AbstractCharacter implements IPlayer {
 
-    private IWeapon equippedWeapon = null;
+    private IWeapon equippedWeapon = NullWeapon.getInstance();
 
     protected AbstractPlayer(@NotNull BlockingQueue<ICharacter> turnsQueue,
                              @NotNull String name, int health, int defense) {
@@ -46,11 +47,15 @@ public abstract class AbstractPlayer extends AbstractCharacter implements IPlaye
 
     @Override
     public int getDamage() {
-        if (equippedWeapon == null) {
-            return 0;
-        } else {
-            return equippedWeapon.getDamage();
-        }
+        return equippedWeapon.getDamage();
+    }
+
+    /**
+     * Those character can be played by the user.
+     */
+    @Override
+    public boolean isPlayable() {
+        return true;
     }
 
 }

@@ -1,9 +1,11 @@
 package com.github.cc3002.finalreality.controller;
 
-import com.github.cc3002.finalreality.controller.handler.CharacterTurnHandler;
-import com.github.cc3002.finalreality.controller.handler.EnemyCharacterDefeatHandler;
-import com.github.cc3002.finalreality.controller.handler.IEventHandler;
-import com.github.cc3002.finalreality.controller.handler.PartyCharacterDefeatHandler;
+import com.github.cc3002.finalreality.controller.handlers.*;
+import com.github.cc3002.finalreality.controller.phases.Phase;
+import com.github.cc3002.finalreality.controller.phases.WaitingTurnPhase;
+import com.github.cc3002.finalreality.gui.nodeSelection.*;
+import com.github.cc3002.finalreality.gui.scenes.IGameOverScene;
+import com.github.cc3002.finalreality.gui.scenes.NullGameOverScene;
 import com.github.cc3002.finalreality.model.character.Enemy;
 import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.character.player.*;
@@ -11,8 +13,8 @@ import com.github.cc3002.finalreality.model.weapon.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Random;
+import java.util.concurrent.*;
 
 /**
  * This represents a Controller that manage the turns and characters logic that
@@ -25,7 +27,6 @@ public class GameController {
     private final int partySize;
     private final List<Enemy> enemies = new ArrayList<>();
     private final int enemiesSize;
-    private final IEventHandler characterTurnHandler = new CharacterTurnHandler(this);
     private final BlockingQueue<ICharacter> turns = new LinkedBlockingQueue<>();
     private ICharacter selectedCharacter;
     private final List<IWeapon> inventory = new ArrayList<>();
@@ -35,6 +36,14 @@ public class GameController {
     private int partyLeft;
     private int enemiesLeft;
     private boolean isTurnBeingPlayed;
+    private Phase phase;
+    private final IEventHandler partyCharacterAddedHandler = new PartyCharacterAddedToQueueHandler(this);
+    private final IEventHandler enemyCharacterAddedHandler = new EnemyCharacterAddedToQueueHandler(this);
+    private INodeTargetEnemy targetMenu = new NullNodeTargetEnemy();
+    private int enemyWaitTime = 1000;
+    private INodeInventory inventoryMenu = new NullNodeInventory();
+    private ScheduledExecutorService scheduledExecutor;
+    private IGameOverScene gameOverScene = new NullGameOverScene();
 
     /**
      * Create a controller with the sizes of the object that will contain.
@@ -52,6 +61,7 @@ public class GameController {
         partyLeft = 0;
         enemiesLeft = 0;
         isTurnBeingPlayed = false;
+        setPhase(new WaitingTurnPhase());
     }
 
     /**
@@ -61,6 +71,11 @@ public class GameController {
         this(5, 5, 10);
     }
 
+    public void setPhase(Phase phase) {
+        this.phase = phase;
+        phase.setController(this);
+    }
+
     /**
      * Add a playable character to the party and the listeners.
      * @param character
@@ -68,8 +83,8 @@ public class GameController {
      */
     private void addToParty(IPlayer character) {
         if (party.size() < partySize) {
-            character.addPlayTurnListener(characterTurnHandler);
             character.addDefeatListener(partyCharacterDefeatHandler);
+            character.addToQueueListener(partyCharacterAddedHandler);
             party.add(character);
             partyLeft ++;
         }
@@ -91,8 +106,8 @@ public class GameController {
     public void addEnemyToEnemies(String name, int health, int defense, int weight, int damage) {
         if (enemies.size() < enemiesSize) {
             Enemy character = new Enemy(name, weight, turns, health, defense, damage);
-            character.addPlayTurnListener(characterTurnHandler);
             character.addDefeatListener(enemyCharacterDefeatHandler);
+            character.addToQueueListener(enemyCharacterAddedHandler);
             enemies.add(character);
             enemiesLeft ++;
         }
@@ -354,10 +369,10 @@ public class GameController {
      */
     public void equipFromInventoryOn(int inventoryIndex, IPlayer character) {
         if (inventoryIndex < inventory.size()) {
-            if (character.getEquippedWeapon() == null) {
+            if (character.getEquippedWeapon().equals(NullWeapon.getInstance())) {
                 IWeapon newWeapon = inventory.get(inventoryIndex);
                 character.equip(newWeapon);
-                if (character.getEquippedWeapon() != null) {
+                if (newWeapon.equals(character.getEquippedWeapon())) {
                     inventory.remove(inventoryIndex);
                 }
             } else {
@@ -383,6 +398,15 @@ public class GameController {
     }
 
     /**
+     * Equip a weapon from the inventory to the selected Character that is playable
+     * @param inventoryIndex
+     *     Integer of the weapon contained
+     */
+    public void equipOnSelectedCharacter(int inventoryIndex) {
+        equipFromInventoryOn(inventoryIndex, (IPlayer) selectedCharacter);
+    }
+
+    /**
      * Return a weapon removed from the inventory
      * @param inventoryIndex
      *     Integer of the weapon contained.
@@ -396,6 +420,15 @@ public class GameController {
      */
     public int getWeaponsAmountOnInventory() {
         return inventory.size();
+    }
+
+    /**
+     * Return a weapon from the inventory
+     * @param inventoryIndex
+     *     Integer of the weapon contained.
+     */
+    public IWeapon getWeaponFromInventory(int inventoryIndex) {
+        return inventory.get(inventoryIndex% inventory.size());
     }
 
     /**
@@ -415,57 +448,14 @@ public class GameController {
      *     Object of the character that receive the attack.
      */
     public void turnCharacterAttackTo(ICharacter receiver) {
-        if (isTurnBeingPlayed) {
-            attackTo(selectedCharacter, receiver);
-        }
+        attackTo(selectedCharacter, receiver);
     }
 
     /**
-     * Return the name of the character on turn.
+     * Get the instance of the selected Characters
      */
-    public String getTurnCharacterName() {
-        if (isTurnBeingPlayed) {
-            return selectedCharacter.getName();
-        }
-        else {
-            return "";
-        }
-    }
-
-    /**
-     * Return the amount of Health of the character on turn.
-     */
-    public int getTurnCharacterHealth() {
-        if (isTurnBeingPlayed) {
-            return selectedCharacter.getHealth();
-        }
-        else {
-            return 0;
-        }
-    }
-
-    /**
-     * Return the amount of Defense of the character on turn.
-     */
-    public int getTurnCharacterDefense() {
-        if (isTurnBeingPlayed) {
-            return selectedCharacter.getDefense();
-        }
-        else {
-            return 0;
-        }
-    }
-
-    /**
-     * Return the Damage produce by an attack of the character on turn.
-     */
-    public int getTurnCharacterDamage() {
-        if (isTurnBeingPlayed) {
-            return selectedCharacter.getDamage();
-        }
-        else {
-            return 0;
-        }
+    public ICharacter getSelectedCharacter() {
+        return selectedCharacter;
     }
 
     /**
@@ -503,39 +493,39 @@ public class GameController {
     }
 
     /**
-     * Method that be called when the user win.
+     * Method that be called when the user win and
+     * call methods of the gui
      */
-    public void playerWon() {}
+    public void playerWon() {
+        gameOverScene.setVictory();
+        gameOverScene.activate();
+    }
 
     /**
-     * Method that be called when the user lose.
+     * Method that be called when the user lose and
+     * call methods of the gui
      */
-    public void playerLost() {}
-
-    /**
-     * Start a new turn if the user si not playing.
-     */
-    public void startTurn() {
-        if (!isTurnBeingPlayed) {
-            selectedCharacter = turns.peek();
-            isTurnBeingPlayed = true;
-        }
+    public void playerLost() {
+        gameOverScene.setDefeat();
+        gameOverScene.activate();
     }
 
     /**
      * End the current turn.
      */
     public void endTurn() {
-        selectedCharacter = turns.poll();
+        turns.poll();
         selectedCharacter.waitTurn();
-        isTurnBeingPlayed = false;
+        phase.toEndingTurn();
     }
 
     /**
-     * Check if the user si not playing.
+     * Check if the user is playing.
      */
     public boolean isTurnBeingPlayed() {
-        return isTurnBeingPlayed;
+        return isSelectingAction() ||
+                isSelectingWeapon() ||
+                isSelectingAttackTarget();
     }
 
     /**
@@ -550,5 +540,335 @@ public class GameController {
      */
     public int getRemainingEnemies() {
         return enemiesLeft;
+    }
+
+    /**
+     * Call a Phase method to change to the Selecting Attack target phase.
+     */
+    public void toAttackTargetSelection() {
+        phase.toSelectingAttackTarget(targetMenu);
+    }
+
+    /**
+     * Call a Phase method to change to the Selecting weapon phase.
+     */
+    public void toWeaponSelection() {
+        phase.toSelectingWeapon();
+    }
+
+    /**
+     * Call a Phase method to try the selection of a weapon.
+     * @param weaponIndex
+     *     Weapon index to be selected from the inventory
+     */
+    public void selectWeapon(int weaponIndex) {
+        phase.selectWeaponFromInventory(weaponIndex);
+    }
+
+    /**
+     * Call a Phase method to try to equip the selected weapon
+     */
+    public void equipSelectedWeapon() {
+        phase.equipSelectedWeapon();
+
+    }
+
+    /**
+     * Call a Phase method to try to change the phase to selecting action
+     */
+    public void toActionSelection() {
+        phase.toSelectingAction();
+    }
+
+    /**
+     * Call a Phase method to try to attack the target character
+     */
+    public void attackTarget() {
+        phase.attackTargetCharacter();
+    }
+
+    /**
+     * Call a Phase method to try to begin a new turn
+     */
+    public void tryBeginTurn() {
+        phase.beginTurn();
+    }
+
+    /**
+     * Start a new turn depending of the character type
+     */
+    public void startTurn() {
+        selectedCharacter = turns.peek();
+
+        if (!selectedCharacter.itsAlive()) {
+            turns.poll();
+            phase.toEndingTurn();
+        }
+        else {
+            if (selectedCharacter.isPlayable()) {
+                phase.toSelectingAction();
+            } else {
+                playEnemyTurn();
+            }
+        }
+    }
+
+    /**
+     * Return a list of the index corresponding to the location in the party list
+     */
+    private List<Integer> getAlivePlayerIndex() {
+        List<Integer> alives = new ArrayList<>();
+        for (int i = 0; i < party.size(); i++) {
+            if (party.get(i).itsAlive()) {
+                alives.add(i);
+            }
+        }
+        return alives;
+    }
+
+    /**
+     * Execute the attack of an enemy character
+     */
+    private void playEnemyTurn() {
+        selectedCharacter = turns.peek();
+        phase.toSelectingAction();
+        scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+        scheduledExecutor
+                .schedule(this::enemyAction, enemyWaitTime, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * Random attack of the enemy character that is executed after a timer
+     */
+    private void enemyAction() {
+        scheduledExecutor.shutdown();
+        phase.toSelectingAttackTarget();
+        long seed = new Random().nextLong();
+        Random rand = new Random(seed);
+        List<Integer> aliveCharacters = getAlivePlayerIndex();
+        int index = rand.nextInt(aliveCharacters.size());
+        int randIndex = aliveCharacters.get(index);
+
+        targetPartyCharacter(randIndex);
+        attackTarget();
+    }
+
+    /**
+     * Call a Phase method to try to get the name of the selected Weapon
+     */
+    public String getSelectedWeaponName() {
+        return phase.getSelectedWeaponName();
+    }
+
+    /**
+     * Call a Phase method to try to get the damage of the selected Weapon
+     */
+    public int getSelectedWeaponDamage() {
+        return phase.getSelectedWeaponDamage();
+    }
+
+    /**
+     * Call a Phase method to try to get the weight of the selected Weapon
+     */
+    public int getSelectedWeaponWeight() {
+        return phase.getSelectedWeaponWeight();
+    }
+
+    /**
+     * Call a Phase method to try to get the type of the selected Weapon
+     */
+    public WeaponType getSelectedWeaponType() {
+        return phase.getSelectedWeaponType();
+    }
+
+    /**
+     * Call a Phase method to try to get the name of the weapon equipped by the selected Character
+     */
+    public String getEquippedWeaponName() {
+        return phase.getEquippedWeaponName();
+    }
+
+    /**
+     * Call a Phase method to try to get the damage of the weapon equipped by the selected Character
+     */
+    public int getEquippedWeaponDamage() {
+        return phase.getEquippedWeaponDamage();
+    }
+
+    /**
+     * Call a Phase method to try to get the weight of the weapon equipped by the selected Character
+     */
+    public int getEquippedWeaponWeight() {
+        return phase.getEquippedWeaponWeight();
+    }
+
+    /**
+     * Call a Phase method to try to get the type of the weapon equipped by the selected Character
+     */
+    public WeaponType getEquippedWeaponType() {
+        return phase.getEquippedWeaponType();
+    }
+
+    /**
+     * Call a Phase method to try to target/select a character to attack
+     * @param character
+     *      character to be targeted
+     */
+    private void targetCharacter(ICharacter character) {
+        phase.selectTarget(character);
+    }
+
+    /**
+     * Call a Phase method to try to target/select an enemy character to attack
+     * @param enemyIndex
+     *      enemy character index to be targeted
+     */
+    public void targetEnemyCharacter(int enemyIndex) {
+        targetCharacter(enemies.get(enemyIndex % enemies.size()));
+    }
+
+    /**
+     * Call a Phase method to try to target/select a party character to attack
+     * @param partyIndex
+     *      party character index to be targeted
+     */
+    public void targetPartyCharacter(int partyIndex) {
+        targetCharacter(party.get(partyIndex % party.size()));
+    }
+
+    /**
+     * Put all the characters in the turn queue to start the battle
+     * first enter the party characters the the enemies, without considering the weight
+     */
+    public void basicTurnSetup() {
+        for (IPlayer partyCharacter : party) {
+            turns.add(partyCharacter);
+        }
+        for (Enemy enemyCharacter : enemies) {
+            turns.add(enemyCharacter);
+        }
+        tryBeginTurn();
+    }
+
+    /**
+     * Check if the character playing is in the selecting action phase
+     */
+    public boolean isSelectingAction() {
+        return phase.isSelectingAction();
+    }
+
+    /**
+     * Check if the character playing is in the selecting weapon phase
+     */
+    public boolean isSelectingWeapon() {
+        return phase.isSelectingWeapon();
+    }
+
+    /**
+     * Check if the character playing is in the selecting target phase
+     */
+    public boolean isSelectingAttackTarget() {
+        return phase.isSelectingAttackTarget();
+    }
+
+    /**
+     * Get a copy of the turn queue
+     */
+    public BlockingQueue<ICharacter> getTurnsQueue() {
+        return new LinkedBlockingQueue<>(turns);
+    }
+
+    /**
+     * Get the index in the party list of a playable character
+     */
+    public int getSelectedPartyCharacterIndex() {
+        return party.indexOf((IPlayer) selectedCharacter);
+    }
+
+    /**
+     * Get the index in the enemies list of a enemy character
+     */
+    public int getSelectedEnemyCharacterIndex() {
+        return enemies.indexOf((Enemy) selectedCharacter);
+    }
+
+    /**
+     * Check if the current turn is being played by a party character
+     */
+    public boolean isTurnBeingPlayedByParty() {
+        return isTurnBeingPlayed() && selectedCharacter.isPlayable();
+    }
+
+    /**
+     * Check if the current turn is being played by an enemy character
+     */
+    public boolean isTurnBeingPlayedByEnemy() {
+        return isTurnBeingPlayed() && !selectedCharacter.isPlayable();
+    }
+
+    /**
+     * Return the type of a weapon from the inventory
+     * @param weaponIndex
+     *      index of the weapon to be consulted
+     */
+    public WeaponType getWeaponTypeFromInventory(int weaponIndex) {
+        return inventory.get(weaponIndex%inventory.size()).getType();
+    }
+
+    /**
+     * Get the size of the enemies list
+     */
+    public int getEnemiesSize() {
+        return enemies.size();
+    }
+
+    /**
+     * Call the phase to ask if is any character targeted
+     */
+    public boolean isACharacterTargeted() {
+        return phase.isACharacterTargeted();
+    }
+
+    /**
+     * Set the reference of a gui element
+     * @param targetMenu
+     *      gui element that manages the display of enemies to attack
+     */
+    public void setTargetMenuGui(INodeTargetEnemy targetMenu) {
+        this.targetMenu = targetMenu;
+    }
+
+    /**
+     * Set the reference of a gui element
+     * @param inventoryMenu
+     *      gui element that manages the display of the inventory and weapons
+     */
+    public void setInventoryMenuGui(INodeInventory inventoryMenu) {
+        this.inventoryMenu = inventoryMenu;
+    }
+
+    /**
+     * Call a gui element to refresh the current list of weapons in the inventory
+     */
+    public void updateInventoryMenu() {
+        inventoryMenu.updateInventoryView();
+    }
+
+    /**
+     * Set the reference of a gui element
+     * @param gameOverScene
+     *      gui element that manages the scene of game over
+     */
+    public void setGameOverScene(IGameOverScene gameOverScene) {
+        this.gameOverScene = gameOverScene;
+    }
+
+    /**
+     * Set the time it takes an enemy character to execute its turn
+     * @param enemyWaitTime
+     *      Time in milliseconds that takes
+     */
+    public void setEnemyWaitTime(int enemyWaitTime) {
+        this.enemyWaitTime = enemyWaitTime;
     }
 }

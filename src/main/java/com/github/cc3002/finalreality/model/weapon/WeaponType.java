@@ -7,5 +7,5 @@ package com.github.cc3002.finalreality.model.weapon;
  * @author Sebastian Olmos.
  */
 public enum WeaponType {
-  SWORD, AXE, KNIFE, STAFF, BOW
+  SWORD, AXE, KNIFE, STAFF, BOW, NULL
 }

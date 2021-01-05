@@ -1,6 +1,6 @@
 package com.github.cc3002.finalreality.model.character;
 
-import com.github.cc3002.finalreality.controller.handler.IEventHandler;
+import com.github.cc3002.finalreality.controller.handlers.IEventHandler;
 import com.github.cc3002.finalreality.model.character.player.CharacterClass;
 
 /**
@@ -69,16 +69,21 @@ public interface ICharacter {
   boolean itsAlive();
 
   /**
-   * Add a listener to notify when controller can play a turn
-   * @param playTurnHandler
-   *     Handler that call the event
-   */
-  void addPlayTurnListener(IEventHandler playTurnHandler);
-
-  /**
    * Add a listener to notify when the character die
    * @param defeatHandler
    *     Handler that call the event
    */
   void addDefeatListener(IEventHandler defeatHandler);
+
+  /**
+   * Add a listener to notify when the character was added to the turn queue
+   * @param addToQueueHandler
+   *     Handler that call the event
+   */
+  void addToQueueListener(IEventHandler addToQueueHandler);
+
+  /**
+   * Check if the character can be play by the user
+   */
+  boolean isPlayable();
 }

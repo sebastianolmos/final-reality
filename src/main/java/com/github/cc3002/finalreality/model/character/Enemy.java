@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
  * @author Sebastian Olmos.
  */
 public class Enemy extends AbstractCharacter {
-
   private final int weight;
   private final int damage;
 
@@ -81,6 +80,14 @@ public class Enemy extends AbstractCharacter {
   @Override
   public int getDamage() {
     return this.damage;
+  }
+
+  /**
+   * The Enemy can't be played by the user.
+   */
+  @Override
+  public boolean isPlayable() {
+    return false;
   }
 
 }

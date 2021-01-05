@@ -16,52 +16,90 @@ enemies controlled by the computer.
 
 ---
 
-First Submission
+Third Submission
 -------
-The goal of the first submission was refactor the project code committed and fixed the tests. In order to make this, it was removed the methods 
-relative to weapon handling from the abstract class ``AbstractCharacter`` and his implemented interface. Then was added a method ``getWeaponWeight()`` 
-for both enemy and character, so that the method ``waitTurn`` can work properly without breaking the single responsibility principle.
+For the last submission the goal was implement the game phases, and the gui to let the user play the game.
+For the first goal it was implemented phases classes using the state pattern, then add classes to the controller that move in these 
+phases and depending on the phase where is the game, let the user do some actions. It was refactor the method that simulate ehe enemy turn 
+using a schedule executor instead of sleep the thread. Then was fixed some test classes that use the new phase implementation and 
+create the final tests to the remaining methods added to the controller.
 
-For the next I supposed that in the future when the project need to implement the battle mechanics, every type of character and weapon will have
- several methods according each type, so in order to maintain the single responsibility principle the playable characters and weapons were specialized 
- according to their type. To achieve this, it were implemented some abstract classes to the common code, and it was added the mana attribute to the mage 
- character (with value zero), to prepare their eventually specialization.
+For the last goal it was implemented the gui with several classes. First was implemented the classes that generate and manage the sprites
+which represents the figure of the characters on the battlefield and the menu with the data for each playable character and the buttons that let 
+the user chose the character action in its turn.
+Then was implemented the classes that generate and manage the inventory menu, and the menu that let select an enemy to attack. Then was 
+implemented other scenes of the application like the start menu, the battle result, and the battle maker that let user to add the 
+characters and weapons with desired attributes.
 
-At least for the tests, in the same way of specialization for the classes, the tests were also separated according their type, implementing a base test 
-of the abstract class for each one. The waitTurn tests were replaced to one without lists because it was using only the elements of 0 indexes, so for each 
-character type was implemented a waitTurn test, and a construction test, while for the weapon was implemented a construction test. It was reached a 
-100% branch and lines coverage.
+Finally, was implemented sounds for each scene.
 
----
+To execute the test, run the test package with coverage not including the gui package.
 
-Second Submission
+GUI instructions
 -------
-For the third partial submission the goal was implements the equip functionality to the playable characters. First according to the correction in the forum 
-I will assume that the ``Thief`` character can equip Sword, Knife and Bow weapons (No Staff). Then I implement this using double dispatch.
+The application begins in the start scene where the user can:
+- Press the ``Make your Battle`` button to go to the scene that let the user create the characters
+- Press the ``Default Battle`` button to go to the game scene with a default 5 vs 5 battle
+- Press the ``Boss Battle`` button to go to the game scene with a 3 vs 1 boss battle
 
-For the attack functionality it was implemented assuming that any character can attack any character, because is more extensible to add new functionalities 
-(confused state, etc) so it was only needed modify the abstract classes.
+In the ``Make your Game`` scene the user can:
+- Fill the party character fields and then press one of the buttons bellow the fields to add the respective class
+- Fill the enemy character fields and then press the ``Add Enemy`` button to add an enemy.
+- Fill the weapon fields and then press one of the buttons bellow the fields to add the respective weapon type in the inventory
+- Press the ``Back`` button to go to the start scene
+- Press the ``Make and Play`` button to go to start the battle with the added characters and weapons.
 
-At least it was implemented the new test to check the equipment to each weapon using inheritance, and tests to check the attacks in the ``BattleTest`` class
-where only are tested a few characters, because the attack functionality was implemented in the abstract class, non in each type of character.
+It's important to consider that:
+- To add a character or a weapon, all their respective fields must be filled
+- Only the ``Name`` fields can accept characters other than numbers, otherwise the field will be clear
+- The input text filled in the ``Name`` will be cut at length o 12, for the text to fit in the menu.
+- The user can create a maximum of 5 playable characters, 5 enemies and 27 weapons.
+- To start a battle the application needs at least 1 playable character, 1 enemy and 1 weapon.
+- The battle will start with the playable characters without equipped weapons, the user must equip in their respective turn 
+to defeat the enemies
 
-For the fifth partial submission the goal was implements a basic controller that will interact with the user and play the game. Then was created 
-the ``GameController`` class and was added several methods to satisfy the requirements. First was implemented methods to create all the different types 
-of characters and weapons, then add them to arrays in the controller. For the getters of the characters' information was implemented so that the user have to pass
-and index. For the inventory, was supposed that first the user have to add a weapon to the inventory and then equip on the character from the inventory passing
-and index. Also, was supposed that if a character already has a weapon equipped, the equip method swap the weapons, removing from the inventory the old weapon 
-and adding the weapon that was used by the character. In the case of the attack methods, for the moment receive character's objects, its need more indication to implements attack 
-methods in more cases, so the user doesn't need to know the objects.
+In the ``Battle`` scene the user can:
+- Manage the turn of each playable character when it's the character's turn
+- Press the ``Attack`` button to show the target enemy menu
+- Press the ``Inventory`` button to show the inventory menu
+- In the ``Select an enemy to attack`` menu, the user can press the button of each remaining enemy to display in the top panel
+its information and target the enemy, press the ``Back`` button to do other action, or press the ``Attack`` button to attack the targeted
+ enemy, this button also ends the character turn.
+- In the ``Inventory`` menu, the user can press the button of each weapon in the inventory to display in the ``Selected`` panel
+its information and select the weapon, in the ``Equipped`` panel its shows the information of the current weapon that is equipped in the character.
+Press the ``Back``button to do other action, or press the ``Equip`` to equip the selected weapon, Consider that the weapon will be equipped only if 
+its compatible with the character class (see the weapon compatibility bellow).
+- The battle last until all the playable characters die or until all the enemies die. Changing to the result scene.
 
-The controller needs to know when start a turn so was implemented the ``CharacterTurnHandler`` that is used to implement an observer on the character to notify 
-when a character waits for a turn, and the turns queue isn't empty. Also notify when a character was added to the queue and is the only one. The was implemented another
- handler for the enemy and the playable character to notify when each one is deafeted, so the controller needs update the remaining character counts and check if the user win 
- or lose.
- 
-At least for the tests, was implemented for the management of the playable characters, enemies and inventory, the for the turns was implemented tests that simulates 
-a simple run of turns that test the correct behaviour of the methods related. For the handlers, and listeners methods was supposed that is not required methods that 
-only test its methods because only make sense use these methods with both the subscriber and publisher implemented, so these methods were tested with the turns.
- It was reached a 100% branch and lines coverage.
+In the ``Result`` scene its displayed the result of the battle, and the user can:
+- Press the ``Back to Menu`` button to go to the start menu scene
+- Press the ``Close Game`` button to close the application.
 
+Enjoy the Game!
 
-To execute the project, run the test package with coverage.
+Weapons per character classes assumptions
+-------
+
+I will assume that the ``Thief`` character can equip Sword, Knife and Bow weapons (No Staff). 
+So the weapons type that can equip each playable character are the next:
+
+|            | Sword | Axe | Knife | Staff | Bow |
+|:----------:|:-----:|:---:|:-----:|:-----:|:---:|
+|   Knight   |  Yes  | Yes |  Yes  |   No  |  No |
+|  Engineer  |   No  | Yes |   No  |   No  | Yes |
+|    Thief   |  Yes  |  No |  Yes  |   No  | Yes |
+| Black Mage |   No  |  No |  Yes  |  Yes  |  No |
+| White Mage |   No  |  No |   No  |  Yes  |  No |
+
+Sample video
+-------
+Click to see a sample video that show the application
+[![Alt text for your video](https://img.youtube.com/vi/kwJvuvLzh-g/0.jpg)](https://youtu.be/kwJvuvLzh-g)
+
+Asset credits
+-------
+
+- Music by JP Soundworks (https://www.youtube.com/c/JPSoundworks/)
+- Playable characters sprites were created by Ocean's Dream (https://oceansdream.itch.io/)
+- Victory Background Photo by Dawid Zawila on Unsplash           
+                                 

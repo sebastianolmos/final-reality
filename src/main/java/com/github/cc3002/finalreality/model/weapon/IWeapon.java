@@ -25,6 +25,11 @@ public interface IWeapon {
     int getDamage();
 
     /**
+     * Returns the weapon's name.
+     */
+    String getName();
+
+    /**
      * Equip a weapon on a BlackMage character if it's compatible.
      * @param player
      *     BlackMage character to equip the weapon.

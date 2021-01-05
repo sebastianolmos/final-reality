@@ -6,6 +6,8 @@ import com.github.cc3002.finalreality.model.weapon.SwordWeapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * Set of tests for the Sword weapon.
  *
@@ -42,5 +44,6 @@ public class SwordWeaponTest extends AbstractWeaponTest {
                 new SwordWeapon(SWORD_NAME, DAMAGE, OTHER_SPEED),
                 new AxeWeapon(OTHER_WEAPON_NAME, DAMAGE, SPEED));
     }
+
 
 }

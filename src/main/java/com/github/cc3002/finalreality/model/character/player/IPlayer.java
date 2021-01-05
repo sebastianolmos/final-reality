@@ -19,4 +19,5 @@ public interface IPlayer extends ICharacter {
      * Return this character's equipped weapon.
      */
     IWeapon getEquippedWeapon();
+
 }

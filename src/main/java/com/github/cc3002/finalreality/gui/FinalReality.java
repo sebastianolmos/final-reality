@@ -1,18 +1,20 @@
 package com.github.cc3002.finalreality.gui;
 
+import com.github.cc3002.finalreality.gui.scenes.StartMenuScene;
 import javafx.application.Application;
-import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
  * Main entry point for the application.
  * <p>
- * <Complete here with the details of the implemented application>
+ * Create the main Scene and then other classes will change the root Node as
+ * the user submits their input.
+ * The first root execute the start menu
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author Sebastián Olmos.
  */
 public class FinalReality extends Application {
 
@@ -22,15 +24,19 @@ public class FinalReality extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-    primaryStage.setTitle("Final reality");
+    primaryStage.setTitle("Final Reality demo");
+    primaryStage.setResizable(false);
 
-    Label label = new Label("This will be a game sometime");
-    label.setAlignment(Pos.CENTER);
+    Group root = new Group();
+    int width = 1000;
+    int height = 740;
+    Scene scene = new Scene(root, width, height);
 
-    // This sets the size of the Scene to be 400px wide, 200px high
-    Scene scene = new Scene(label, 400, 200);
+    StartMenuScene startScene = new StartMenuScene(scene);
+    startScene.activate();
+
     primaryStage.setScene(scene);
-
     primaryStage.show();
   }
+
 }

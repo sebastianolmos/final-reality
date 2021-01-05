@@ -1,8 +1,33 @@
 ChangeLog
 =========
+
+Version 8.0
+-----------
+- (RC.8) Homework 3 Submission
+- (B.501) Added PDF summary
+- (B.401) Added the UML diagram of the project
+- (B.311) Implements some null object of gui elements to fix some test errors
+- (B.310) Add methods to the controller that needs the gui
+- (B.309) Implements a default 5vs5 battle, and a 3 v2 1 boss battle
+- (B.308) Implements scenes for the start menu, the battle maker, the battle game, and the battle result
+- (B.307) Implements a scene hierarchy with parent classes that manages scene with an audio and timers
+- (B.306) Add a class that manage the enemy target menu in the battle
+- (B.305) Add a class that manage the inventory menu in the battle
+- (B.304) Add classes that manages the figure and portrait menu to each enemy character 
+- (B.303) Add classes that manages the figure and portrait menu to each playable character type
+- (B.302) Add a random background for the battle
+- (B.301) Start with the gui implementation
+- (B.203) Fix the timer in the method that simulate the turn of an enemy with a schedule executor, and the wait time value 
+to the controller
+- (B.202) Fix the test that simulates a basic battle
+- (B.201) Add test classes to test the management of the phases from te controller
+- (B.103) Add getters and setters to the controller that only works when the game is in the correct phase
+- (B.102) Add methods to the controller that manage the phases
+- (B.101) Add phases classes to the controller package
+
 Version 7.0
 -----------
-- (RC.4) Homework 2 Submission
+- (RC.7) Homework 2 Submission
 - (B.4) Added PDF summary
 - (B.3) Added the UML diagram of the project
 - (B.2) Updated README
@@ -10,8 +35,8 @@ Version 7.0
 
 Version 6.0
 -----------
-- (RC.5) Partial submission 5 : Basic Controller implementation.
-- (B.401) Add methods for check the winner condition in the controller..
+- (RC.6) Partial submission 5 : Basic Controller implementation.
+- (B.401) Add methods for check the winner condition in the controller.
 - (B.301) Refactor the attack method in the player characters to implements in ``AbstractCharacters``
 - (B.204) Add methods for turn management in the controller.
 - (B.203) Add the listener subscribe methods in the controller.
